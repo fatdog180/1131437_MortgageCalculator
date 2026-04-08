@@ -1,515 +1,174 @@
-﻿namespace _1131437_藍奕_房貸計算器
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+
+namespace _1131437_藍奕_房貸計算器
 {
-    partial class MortgageCalculator
+    public partial class MortgageCalculator : Form
     {
-        /// <summary>
-        /// Required designer variable.
-        /// </summary>
-        private System.ComponentModel.IContainer components = null;
-
-        /// <summary>
-        /// Clean up any resources being used.
-        /// </summary>
-        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
-        protected override void Dispose(bool disposing)
+        public MortgageCalculator()
         {
-            if (disposing && (components != null))
+            InitializeComponent();
+        }
+
+        private void MortgageCalculator_Load(object sender, EventArgs e)
+        {
+            // 讓程式一開啟時，預設選取「比例」
+            rbPercent.Checked = true;
+        }
+
+        private void rbPercent_CheckedChanged(object sender, EventArgs e)
+        {
+            if (rbPercent.Checked)
             {
-                components.Dispose();
+                // 嘗試取得「房屋總價」與目前的「金額」
+                if (decimal.TryParse(txtHousePrice.Text, out decimal housePrice) &&
+                    decimal.TryParse(txtDownPayment.Text, out decimal amount))
+                {
+                    // 必須防範房屋總價為 0 的情況，避免發生「除以零」的嚴重錯誤
+                    if (housePrice > 0)
+                    {
+                        // 計算出比例 = (金額 / 房屋總價) * 100
+                        decimal percent = (amount / housePrice) * 100m;
+
+                        // 更新輸入框。比例通常最多保留兩位小數，"0.##" 代表若無小數則不顯示
+                        txtDownPayment.Text = Math.Round(percent, 2).ToString("0.##");
+                    }
+                }
             }
-            base.Dispose(disposing);
         }
 
-        #region Windows Form Designer generated code
-
-        /// <summary>
-        /// Required method for Designer support - do not modify
-        /// the contents of this method with the code editor.
-        /// </summary>
-        private void InitializeComponent()
+        private void rbAmount_CheckedChanged(object sender, EventArgs e)
         {
-            this.grpInput = new System.Windows.Forms.GroupBox();
-            this.grpOutput = new System.Windows.Forms.GroupBox();
-            this.grpOperation = new System.Windows.Forms.GroupBox();
-            this.txtHousePrice = new System.Windows.Forms.TextBox();
-            this.rbPercent = new System.Windows.Forms.RadioButton();
-            this.rbAmount = new System.Windows.Forms.RadioButton();
-            this.dollar = new System.Windows.Forms.Label();
-            this.txtDownPayment = new System.Windows.Forms.TextBox();
-            this.txtInterestRate = new System.Windows.Forms.TextBox();
-            this.txtLoanYears = new System.Windows.Forms.TextBox();
-            this.txtGracePeriod = new System.Windows.Forms.TextBox();
-            this.APR = new System.Windows.Forms.Label();
-            this.year = new System.Windows.Forms.Label();
-            this.yearOptional = new System.Windows.Forms.Label();
-            this.lblTotalHousingPrice = new System.Windows.Forms.Label();
-            this.lblDownPayment = new System.Windows.Forms.Label();
-            this.lblAnnualInterestRate = new System.Windows.Forms.Label();
-            this.lblLoanTerm = new System.Windows.Forms.Label();
-            this.lblGracePeriod = new System.Windows.Forms.Label();
-            this.btnCalculate = new System.Windows.Forms.Button();
-            this.btnClear = new System.Windows.Forms.Button();
-            this.lblTotalLoan = new System.Windows.Forms.Label();
-            this.lblMonthlyPayment = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
-            this.label6 = new System.Windows.Forms.Label();
-            this.label7 = new System.Windows.Forms.Label();
-            this.lblFirstMonthInterest = new System.Windows.Forms.Label();
-            this.lblFirstMonthPrincipal = new System.Windows.Forms.Label();
-            this.lblTotalInterest = new System.Windows.Forms.Label();
-            this.lblTotalRepayment = new System.Windows.Forms.Label();
-            this.pictureHomeLoan = new System.Windows.Forms.PictureBox();
-            this.grpInput.SuspendLayout();
-            this.grpOutput.SuspendLayout();
-            this.grpOperation.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureHomeLoan)).BeginInit();
-            this.SuspendLayout();
-            // 
-            // grpInput
-            // 
-            this.grpInput.Controls.Add(this.lblGracePeriod);
-            this.grpInput.Controls.Add(this.lblLoanTerm);
-            this.grpInput.Controls.Add(this.lblAnnualInterestRate);
-            this.grpInput.Controls.Add(this.lblDownPayment);
-            this.grpInput.Controls.Add(this.lblTotalHousingPrice);
-            this.grpInput.Controls.Add(this.yearOptional);
-            this.grpInput.Controls.Add(this.year);
-            this.grpInput.Controls.Add(this.APR);
-            this.grpInput.Controls.Add(this.txtGracePeriod);
-            this.grpInput.Controls.Add(this.txtLoanYears);
-            this.grpInput.Controls.Add(this.txtInterestRate);
-            this.grpInput.Controls.Add(this.txtDownPayment);
-            this.grpInput.Controls.Add(this.dollar);
-            this.grpInput.Controls.Add(this.rbAmount);
-            this.grpInput.Controls.Add(this.rbPercent);
-            this.grpInput.Controls.Add(this.txtHousePrice);
-            this.grpInput.Location = new System.Drawing.Point(17, 26);
-            this.grpInput.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.grpInput.Name = "grpInput";
-            this.grpInput.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.grpInput.Size = new System.Drawing.Size(552, 242);
-            this.grpInput.TabIndex = 0;
-            this.grpInput.TabStop = false;
-            this.grpInput.Text = "輸入";
-            // 
-            // grpOutput
-            // 
-            this.grpOutput.Controls.Add(this.pictureHomeLoan);
-            this.grpOutput.Controls.Add(this.lblTotalRepayment);
-            this.grpOutput.Controls.Add(this.lblTotalInterest);
-            this.grpOutput.Controls.Add(this.lblFirstMonthPrincipal);
-            this.grpOutput.Controls.Add(this.lblFirstMonthInterest);
-            this.grpOutput.Controls.Add(this.label7);
-            this.grpOutput.Controls.Add(this.label6);
-            this.grpOutput.Controls.Add(this.label5);
-            this.grpOutput.Controls.Add(this.label4);
-            this.grpOutput.Controls.Add(this.label3);
-            this.grpOutput.Controls.Add(this.label2);
-            this.grpOutput.Controls.Add(this.lblMonthlyPayment);
-            this.grpOutput.Controls.Add(this.lblTotalLoan);
-            this.grpOutput.Location = new System.Drawing.Point(17, 276);
-            this.grpOutput.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.grpOutput.Name = "grpOutput";
-            this.grpOutput.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.grpOutput.Size = new System.Drawing.Size(677, 271);
-            this.grpOutput.TabIndex = 1;
-            this.grpOutput.TabStop = false;
-            this.grpOutput.Text = "試算結果";
-            // 
-            // grpOperation
-            // 
-            this.grpOperation.Controls.Add(this.btnClear);
-            this.grpOperation.Controls.Add(this.btnCalculate);
-            this.grpOperation.Location = new System.Drawing.Point(577, 26);
-            this.grpOperation.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.grpOperation.Name = "grpOperation";
-            this.grpOperation.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.grpOperation.Size = new System.Drawing.Size(117, 242);
-            this.grpOperation.TabIndex = 2;
-            this.grpOperation.TabStop = false;
-            this.grpOperation.Text = "操作按鈕";
-            // 
-            // txtHousePrice
-            // 
-            this.txtHousePrice.Location = new System.Drawing.Point(91, 31);
-            this.txtHousePrice.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.txtHousePrice.Name = "txtHousePrice";
-            this.txtHousePrice.Size = new System.Drawing.Size(252, 25);
-            this.txtHousePrice.TabIndex = 1;
-            // 
-            // rbPercent
-            // 
-            this.rbPercent.AutoSize = true;
-            this.rbPercent.Location = new System.Drawing.Point(355, 75);
-            this.rbPercent.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.rbPercent.Name = "rbPercent";
-            this.rbPercent.Size = new System.Drawing.Size(74, 21);
-            this.rbPercent.TabIndex = 2;
-            this.rbPercent.TabStop = true;
-            this.rbPercent.Text = "比例 (%)";
-            this.rbPercent.UseVisualStyleBackColor = true;
-            this.rbPercent.CheckedChanged += new System.EventHandler(this.rbPercent_CheckedChanged);
-            // 
-            // rbAmount
-            // 
-            this.rbAmount.AutoCheck = false;
-            this.rbAmount.AutoSize = true;
-            this.rbAmount.Location = new System.Drawing.Point(452, 75);
-            this.rbAmount.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.rbAmount.Name = "rbAmount";
-            this.rbAmount.Size = new System.Drawing.Size(76, 21);
-            this.rbAmount.TabIndex = 3;
-            this.rbAmount.TabStop = true;
-            this.rbAmount.Text = "金額 (元)";
-            this.rbAmount.UseVisualStyleBackColor = true;
-            this.rbAmount.CheckedChanged += new System.EventHandler(this.rbAmount_CheckedChanged);
-            // 
-            // dollar
-            // 
-            this.dollar.AutoSize = true;
-            this.dollar.Location = new System.Drawing.Point(352, 42);
-            this.dollar.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.dollar.Name = "dollar";
-            this.dollar.Size = new System.Drawing.Size(72, 17);
-            this.dollar.TabIndex = 4;
-            this.dollar.Text = "元（NT$）";
-            // 
-            // txtDownPayment
-            // 
-            this.txtDownPayment.Location = new System.Drawing.Point(91, 71);
-            this.txtDownPayment.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.txtDownPayment.Name = "txtDownPayment";
-            this.txtDownPayment.Size = new System.Drawing.Size(252, 25);
-            this.txtDownPayment.TabIndex = 5;
-            this.txtDownPayment.Text = "20";
-            // 
-            // txtInterestRate
-            // 
-            this.txtInterestRate.Location = new System.Drawing.Point(91, 110);
-            this.txtInterestRate.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.txtInterestRate.Name = "txtInterestRate";
-            this.txtInterestRate.Size = new System.Drawing.Size(252, 25);
-            this.txtInterestRate.TabIndex = 6;
-            this.txtInterestRate.Text = "2.15";
-            // 
-            // txtLoanYears
-            // 
-            this.txtLoanYears.Location = new System.Drawing.Point(91, 150);
-            this.txtLoanYears.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.txtLoanYears.Name = "txtLoanYears";
-            this.txtLoanYears.Size = new System.Drawing.Size(252, 25);
-            this.txtLoanYears.TabIndex = 7;
-            this.txtLoanYears.Text = "30";
-            // 
-            // txtGracePeriod
-            // 
-            this.txtGracePeriod.Location = new System.Drawing.Point(91, 190);
-            this.txtGracePeriod.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.txtGracePeriod.Name = "txtGracePeriod";
-            this.txtGracePeriod.Size = new System.Drawing.Size(252, 25);
-            this.txtGracePeriod.TabIndex = 8;
-            this.txtGracePeriod.Text = "0";
-            // 
-            // APR
-            // 
-            this.APR.AutoSize = true;
-            this.APR.Location = new System.Drawing.Point(352, 115);
-            this.APR.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.APR.Name = "APR";
-            this.APR.Size = new System.Drawing.Size(69, 17);
-            this.APR.TabIndex = 9;
-            this.APR.Text = "% (年利率)";
-            // 
-            // year
-            // 
-            this.year.AutoSize = true;
-            this.year.Location = new System.Drawing.Point(355, 154);
-            this.year.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.year.Name = "year";
-            this.year.Size = new System.Drawing.Size(21, 17);
-            this.year.TabIndex = 10;
-            this.year.Text = "年";
-            // 
-            // yearOptional
-            // 
-            this.yearOptional.AutoSize = true;
-            this.yearOptional.Location = new System.Drawing.Point(355, 196);
-            this.yearOptional.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.yearOptional.Name = "yearOptional";
-            this.yearOptional.Size = new System.Drawing.Size(58, 17);
-            this.yearOptional.TabIndex = 11;
-            this.yearOptional.Text = "年 (選填)";
-            // 
-            // lblTotalHousingPrice
-            // 
-            this.lblTotalHousingPrice.AutoSize = true;
-            this.lblTotalHousingPrice.Location = new System.Drawing.Point(12, 42);
-            this.lblTotalHousingPrice.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.lblTotalHousingPrice.Name = "lblTotalHousingPrice";
-            this.lblTotalHousingPrice.Size = new System.Drawing.Size(60, 17);
-            this.lblTotalHousingPrice.TabIndex = 12;
-            this.lblTotalHousingPrice.Text = "房屋總價";
-            // 
-            // lblDownPayment
-            // 
-            this.lblDownPayment.AutoSize = true;
-            this.lblDownPayment.Location = new System.Drawing.Point(28, 75);
-            this.lblDownPayment.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.lblDownPayment.Name = "lblDownPayment";
-            this.lblDownPayment.Size = new System.Drawing.Size(47, 17);
-            this.lblDownPayment.TabIndex = 13;
-            this.lblDownPayment.Text = "自備款";
-            // 
-            // lblAnnualInterestRate
-            // 
-            this.lblAnnualInterestRate.AutoSize = true;
-            this.lblAnnualInterestRate.Location = new System.Drawing.Point(12, 115);
-            this.lblAnnualInterestRate.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.lblAnnualInterestRate.Name = "lblAnnualInterestRate";
-            this.lblAnnualInterestRate.Size = new System.Drawing.Size(60, 17);
-            this.lblAnnualInterestRate.TabIndex = 14;
-            this.lblAnnualInterestRate.Text = "貸款利率";
-            // 
-            // lblLoanTerm
-            // 
-            this.lblLoanTerm.AutoSize = true;
-            this.lblLoanTerm.Location = new System.Drawing.Point(12, 154);
-            this.lblLoanTerm.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.lblLoanTerm.Name = "lblLoanTerm";
-            this.lblLoanTerm.Size = new System.Drawing.Size(60, 17);
-            this.lblLoanTerm.TabIndex = 15;
-            this.lblLoanTerm.Text = "貸款年限";
-            // 
-            // lblGracePeriod
-            // 
-            this.lblGracePeriod.AutoSize = true;
-            this.lblGracePeriod.Location = new System.Drawing.Point(28, 194);
-            this.lblGracePeriod.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.lblGracePeriod.Name = "lblGracePeriod";
-            this.lblGracePeriod.Size = new System.Drawing.Size(47, 17);
-            this.lblGracePeriod.TabIndex = 16;
-            this.lblGracePeriod.Text = "寬限期";
-            // 
-            // btnCalculate
-            // 
-            this.btnCalculate.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
-            this.btnCalculate.Font = new System.Drawing.Font("Microsoft JhengHei", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.btnCalculate.Location = new System.Drawing.Point(8, 24);
-            this.btnCalculate.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.btnCalculate.Name = "btnCalculate";
-            this.btnCalculate.Size = new System.Drawing.Size(101, 102);
-            this.btnCalculate.TabIndex = 0;
-            this.btnCalculate.Text = "開始試算";
-            this.btnCalculate.UseVisualStyleBackColor = false;
-            this.btnCalculate.Click += new System.EventHandler(this.btnCalculate_Click);
-            // 
-            // btnClear
-            // 
-            this.btnClear.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
-            this.btnClear.Location = new System.Drawing.Point(8, 132);
-            this.btnClear.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.btnClear.Name = "btnClear";
-            this.btnClear.Size = new System.Drawing.Size(101, 102);
-            this.btnClear.TabIndex = 1;
-            this.btnClear.Text = "清除重填";
-            this.btnClear.UseVisualStyleBackColor = false;
-            this.btnClear.Click += new System.EventHandler(this.btnClear_Click);
-            // 
-            // lblTotalLoan
-            // 
-            this.lblTotalLoan.AutoSize = true;
-            this.lblTotalLoan.Location = new System.Drawing.Point(128, 35);
-            this.lblTotalLoan.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.lblTotalLoan.Name = "lblTotalLoan";
-            this.lblTotalLoan.Size = new System.Drawing.Size(46, 17);
-            this.lblTotalLoan.TabIndex = 0;
-            this.lblTotalLoan.Text = "$ 0.00";
-            // 
-            // lblMonthlyPayment
-            // 
-            this.lblMonthlyPayment.AutoSize = true;
-            this.lblMonthlyPayment.Font = new System.Drawing.Font("Microsoft JhengHei", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.lblMonthlyPayment.Location = new System.Drawing.Point(128, 75);
-            this.lblMonthlyPayment.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.lblMonthlyPayment.Name = "lblMonthlyPayment";
-            this.lblMonthlyPayment.Size = new System.Drawing.Size(46, 17);
-            this.lblMonthlyPayment.TabIndex = 1;
-            this.lblMonthlyPayment.Text = "$ 0.00";
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(33, 35);
-            this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(73, 17);
-            this.label2.TabIndex = 17;
-            this.label2.Text = "貸款總金額";
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(17, 75);
-            this.label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(86, 17);
-            this.label3.TabIndex = 18;
-            this.label3.Text = "每月應繳金額";
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(49, 115);
-            this.label4.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(60, 17);
-            this.label4.TabIndex = 19;
-            this.label4.Text = "首期利息";
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(49, 154);
-            this.label5.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(60, 17);
-            this.label5.TabIndex = 20;
-            this.label5.Text = "首期本金";
-            // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(33, 194);
-            this.label6.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(73, 17);
-            this.label6.TabIndex = 21;
-            this.label6.Text = "總利息支出";
-            // 
-            // label7
-            // 
-            this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(33, 234);
-            this.label7.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(73, 17);
-            this.label7.TabIndex = 22;
-            this.label7.Text = "總還款金額";
-            // 
-            // lblFirstMonthInterest
-            // 
-            this.lblFirstMonthInterest.AutoSize = true;
-            this.lblFirstMonthInterest.Location = new System.Drawing.Point(128, 115);
-            this.lblFirstMonthInterest.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.lblFirstMonthInterest.Name = "lblFirstMonthInterest";
-            this.lblFirstMonthInterest.Size = new System.Drawing.Size(46, 17);
-            this.lblFirstMonthInterest.TabIndex = 23;
-            this.lblFirstMonthInterest.Text = "$ 0.00";
-            // 
-            // lblFirstMonthPrincipal
-            // 
-            this.lblFirstMonthPrincipal.AutoSize = true;
-            this.lblFirstMonthPrincipal.Location = new System.Drawing.Point(128, 154);
-            this.lblFirstMonthPrincipal.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.lblFirstMonthPrincipal.Name = "lblFirstMonthPrincipal";
-            this.lblFirstMonthPrincipal.Size = new System.Drawing.Size(46, 17);
-            this.lblFirstMonthPrincipal.TabIndex = 24;
-            this.lblFirstMonthPrincipal.Text = "$ 0.00";
-            // 
-            // lblTotalInterest
-            // 
-            this.lblTotalInterest.AutoSize = true;
-            this.lblTotalInterest.Location = new System.Drawing.Point(128, 194);
-            this.lblTotalInterest.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.lblTotalInterest.Name = "lblTotalInterest";
-            this.lblTotalInterest.Size = new System.Drawing.Size(46, 17);
-            this.lblTotalInterest.TabIndex = 25;
-            this.lblTotalInterest.Text = "$ 0.00";
-            // 
-            // lblTotalRepayment
-            // 
-            this.lblTotalRepayment.AutoSize = true;
-            this.lblTotalRepayment.Location = new System.Drawing.Point(128, 234);
-            this.lblTotalRepayment.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.lblTotalRepayment.Name = "lblTotalRepayment";
-            this.lblTotalRepayment.Size = new System.Drawing.Size(46, 17);
-            this.lblTotalRepayment.TabIndex = 26;
-            this.lblTotalRepayment.Text = "$ 0.00";
-            // 
-            // pictureHomeLoan
-            // 
-            this.pictureHomeLoan.Image = global::_1131437_藍奕_房貸計算器.Properties.Resources.螢幕擷取畫面_2026_04_08_151743;
-            this.pictureHomeLoan.Location = new System.Drawing.Point(276, 15);
-            this.pictureHomeLoan.Margin = new System.Windows.Forms.Padding(4);
-            this.pictureHomeLoan.Name = "pictureHomeLoan";
-            this.pictureHomeLoan.Size = new System.Drawing.Size(393, 247);
-            this.pictureHomeLoan.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pictureHomeLoan.TabIndex = 27;
-            this.pictureHomeLoan.TabStop = false;
-            // 
-            // MortgageCalculator
-            // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 17F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            this.ClientSize = new System.Drawing.Size(707, 558);
-            this.Controls.Add(this.grpOperation);
-            this.Controls.Add(this.grpOutput);
-            this.Controls.Add(this.grpInput);
-            this.Font = new System.Drawing.Font("Microsoft JhengHei", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.Name = "MortgageCalculator";
-            this.Text = "MortgageCalculator";
-            this.Load += new System.EventHandler(this.MortgageCalculator_Load);
-            this.grpInput.ResumeLayout(false);
-            this.grpInput.PerformLayout();
-            this.grpOutput.ResumeLayout(false);
-            this.grpOutput.PerformLayout();
-            this.grpOperation.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.pictureHomeLoan)).EndInit();
-            this.ResumeLayout(false);
+            // 必須判斷是否為 Checked 狀態。因為兩個 RadioButton 切換時，
+            // 原本的會變成 unchecked，新的變成 checked，事件會觸發兩次。
+            if (rbAmount.Checked)
+            {
+                // 嘗試取得「房屋總價」與目前的「比例」
+                if (decimal.TryParse(txtHousePrice.Text, out decimal housePrice) &&
+                    decimal.TryParse(txtDownPayment.Text, out decimal percent))
+                {
+                    // 計算出實際金額 = 房屋總價 * (比例 / 100)
+                    decimal amount = housePrice * (percent / 100m);
 
+                    // 更新輸入框。新台幣通常不留小數點，這裡用 "0" 格式化取整數
+                    txtDownPayment.Text = Math.Round(amount).ToString("0");
+                }
+            }
         }
 
-        #endregion
+        private void btnClear_Click(object sender, EventArgs e)
+        {
+            // 清空並重置輸入框
+            txtHousePrice.Text = "";
+            txtDownPayment.Text = "20";
+            txtInterestRate.Text = "2.15";
+            txtLoanYears.Text = "30";
+            txtGracePeriod.Text = "0";
+            rbPercent.Checked = true;
 
-        private System.Windows.Forms.GroupBox grpInput;
-        private System.Windows.Forms.GroupBox grpOutput;
-        private System.Windows.Forms.RadioButton rbPercent;
-        private System.Windows.Forms.TextBox txtHousePrice;
-        private System.Windows.Forms.GroupBox grpOperation;
-        private System.Windows.Forms.TextBox txtGracePeriod;
-        private System.Windows.Forms.TextBox txtLoanYears;
-        private System.Windows.Forms.TextBox txtInterestRate;
-        private System.Windows.Forms.TextBox txtDownPayment;
-        private System.Windows.Forms.Label dollar;
-        private System.Windows.Forms.RadioButton rbAmount;
-        private System.Windows.Forms.Label yearOptional;
-        private System.Windows.Forms.Label year;
-        private System.Windows.Forms.Label APR;
-        private System.Windows.Forms.Label lblTotalHousingPrice;
-        private System.Windows.Forms.Label lblGracePeriod;
-        private System.Windows.Forms.Label lblLoanTerm;
-        private System.Windows.Forms.Label lblAnnualInterestRate;
-        private System.Windows.Forms.Label lblDownPayment;
-        private System.Windows.Forms.Label lblMonthlyPayment;
-        private System.Windows.Forms.Label lblTotalLoan;
-        private System.Windows.Forms.Button btnClear;
-        private System.Windows.Forms.Button btnCalculate;
-        private System.Windows.Forms.Label lblFirstMonthPrincipal;
-        private System.Windows.Forms.Label lblFirstMonthInterest;
-        private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Label lblTotalRepayment;
-        private System.Windows.Forms.Label lblTotalInterest;
-        private System.Windows.Forms.PictureBox pictureHomeLoan;
+            // 重置輸出結果
+            lblTotalLoan.Text = "$ 0.00";
+            lblMonthlyPayment.Text = "$ 0.00";
+            lblFirstMonthInterest.Text = "$ 0.00";
+            lblFirstMonthPrincipal.Text = "$ 0.00";
+            lblTotalInterest.Text = "$ 0.00";
+            lblTotalRepayment.Text = "$ 0.00";
+        }
+
+        private void btnCalculate_Click(object sender, EventArgs e)
+        {
+            // ==========================================
+            // 1. 防呆驗證與讀取輸入 (有效攔截非法輸入 )
+                        // ==========================================
+            if (!decimal.TryParse(txtHousePrice.Text, out decimal housePrice) || housePrice <= 0)
+            {
+                MessageBox.Show("請輸入大於 0 的房屋總價！", "輸入錯誤", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+            if (!decimal.TryParse(txtDownPayment.Text, out decimal downPayment) || downPayment < 0)
+            {
+                MessageBox.Show("請輸入正確的自備款！", "輸入錯誤", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+            if (!decimal.TryParse(txtInterestRate.Text, out decimal annualRate) || annualRate < 0)
+            {
+                MessageBox.Show("請輸入正確的貸款利率！", "輸入錯誤", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+            if (!int.TryParse(txtLoanYears.Text, out int loanYears) || loanYears <= 0)
+            {
+                MessageBox.Show("請輸入正確的貸款年限！", "輸入錯誤", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+            // 寬限期為選填，若未填或填錯，預設為 0 [cite: 16]
+            if (!int.TryParse(txtGracePeriod.Text, out int graceYears) || graceYears < 0)
+            {
+                graceYears = 0;
+            }
+
+            // ==========================================
+            // 2. 核心公式計算 
+            // ==========================================
+            // 計算貸款總金額 [cite: 20]
+            decimal downPaymentAmount = rbPercent.Checked ? housePrice * (downPayment / 100m) : downPayment;
+            decimal totalLoanAmount = housePrice - downPaymentAmount;
+
+            if (totalLoanAmount <= 0)
+            {
+                MessageBox.Show("自備款已大於或等於房屋總價，無需貸款！", "提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+
+            double P = (double)totalLoanAmount;
+            double r = (double)(annualRate / 100m / 12m); // 月利率
+            int n = loanYears * 12; // 總月數
+            int n_g = graceYears * 12; // 寬限期月數
+
+            double monthlyPayment = 0;
+            decimal firstMonthInterest = (decimal)(P * r);
+            decimal firstMonthPrincipal = 0;
+            decimal totalRepayment = 0;
+
+            if (graceYears > 0)
+            {
+                // 有寬限期的情況
+                int n_r = n - n_g; // 剩餘攤還月數
+                monthlyPayment = P * (r * Math.Pow(1 + r, n_r)) / (Math.Pow(1 + r, n_r) - 1);
+
+                firstMonthPrincipal = 0; // 寬限期首期不繳本金 [cite: 22]
+                totalRepayment = (decimal)(n_g * (P * r)) + (decimal)((n - n_g) * monthlyPayment); // 總還款金額 [cite: 24]
+            }
+            else
+            {
+                // 無寬限期的情況
+                monthlyPayment = P * (r * Math.Pow(1 + r, n)) / (Math.Pow(1 + r, n) - 1);
+
+                firstMonthPrincipal = (decimal)monthlyPayment - firstMonthInterest; // 首期本金 [cite: 22]
+                totalRepayment = (decimal)monthlyPayment * n; // 總還款金額 [cite: 24]
+            }
+
+            decimal totalInterest = totalRepayment - totalLoanAmount; // 總利息支出 [cite: 23]
+
+            // ==========================================
+            // 3. 顯示結果並格式化 (含千分位逗號與小數點後兩位 [cite: 19])
+                        // ==========================================
+            lblTotalLoan.Text = $"$ {totalLoanAmount:N2}";
+
+            // 若有寬限期，這裡顯示的是「寬限期後」的每月本息攤還金額 [cite: 21]
+            lblMonthlyPayment.Text = $"$ {monthlyPayment:N2}";
+
+            lblFirstMonthInterest.Text = $"$ {firstMonthInterest:N2}";
+            lblFirstMonthPrincipal.Text = $"$ {firstMonthPrincipal:N2}";
+            lblTotalInterest.Text = $"$ {totalInterest:N2}";
+            lblTotalRepayment.Text = $"$ {totalRepayment:N2}";
+        }
     }
-}
 
+}
